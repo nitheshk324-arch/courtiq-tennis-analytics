@@ -1,3 +1,4 @@
+import sqlite3
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -384,7 +385,15 @@ def fetch_raw_table(table_name, engine):
     df, _, _ = run_query(f"SELECT * FROM `{table_name}`" if engine == "mysql" else f"SELECT * FROM {table_name}", engine)
     return df
 
-counts = fetch_global_stats(db_engine)
+try:
+    counts = fetch_global_stats(db_engine)
+except (FileNotFoundError, ValueError, OSError, sqlite3.Error, pd.errors.ParserError) as exc:
+    st.error(f"Unable to load the tennis database: {exc}")
+    st.info(
+        "For a hosted deployment, configure the [supabase] secrets from "
+        "secrets.example.toml and ensure the private bucket contains all six CSV files."
+    )
+    st.stop()
 
 
 # =========================================================
