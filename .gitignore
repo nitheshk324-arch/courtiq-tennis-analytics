@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.env
+.streamlit/secrets.toml
+
+# Keep Sportradar exports and generated databases out of the public repository.
+*.csv
+*.sqlite
+*.sqlite3
+*.db
+
+# Project source material and exported reports are not part of this code-only repo.
+*.pdf
+Game/
